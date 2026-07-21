@@ -4,72 +4,167 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-    --primary: 240 5.9% 10%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 240 5.9% 10%;
-    --radius: 0.625rem;
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
+    /* ===== Espacios Hub design tokens (dark theme only) ===== */
+    --bg-canvas: #06090e;
+    --bg-surface: #0c1017;
+    --bg-elevated: #11161f;
+    --bg-overlay: #171e2a;
+    --bg-hover: rgba(255, 255, 255, 0.04);
+    --bg-inset: #080b10;
 
-  .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
+    --border-hairline: #1c2432;
+    --border-strong: #2a3547;
+
+    --text-primary: #e9edf5;
+    --text-secondary: #98a2b6;
+    --text-muted: #5d6879;
+
+    --brand: #16c784;
+    --brand-hover: #1fdb97;
+    --brand-dim: rgba(22, 199, 132, 0.12);
+    --sync: #38bdf8;
+    --sync-dim: rgba(56, 189, 248, 0.12);
+    --warning: #f5a524;
+    --warning-dim: rgba(245, 165, 36, 0.12);
+    --danger: #f04452;
+    --danger-dim: rgba(240, 68, 82, 0.12);
+    --siigo: #ff8a00;
+    --siigo-dim: rgba(255, 138, 0, 0.12);
+    --hgi: #4f8cff;
+    --hgi-dim: rgba(79, 140, 255, 0.12);
+    --whatsapp: #25d366;
+    --violet: #8b5cf6;
+    --neutral-series: #64748b;
+
+    /* ===== shadcn/ui HSL bridge (mapped to dark tokens) ===== */
+    --background: 222 40% 4%;
+    --foreground: 220 24% 94%;
+    --card: 222 32% 9%;
+    --card-foreground: 220 24% 94%;
+    --popover: 220 28% 13%;
+    --popover-foreground: 220 24% 94%;
+    --primary: 158 81% 44%;
+    --primary-foreground: 222 40% 4%;
+    --secondary: 220 28% 13%;
+    --secondary-foreground: 220 24% 94%;
+    --muted: 220 28% 13%;
+    --muted-foreground: 218 12% 65%;
+    --accent: 220 28% 16%;
+    --accent-foreground: 220 24% 94%;
+    --destructive: 354 85% 60%;
     --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --border: 220 28% 15%;
+    --input: 219 25% 22%;
+    --ring: 199 89% 60%;
+    --radius: 0.625rem;
+    --sidebar-background: 222 32% 7%;
+    --sidebar-foreground: 220 24% 94%;
+    --sidebar-primary: 158 81% 44%;
+    --sidebar-primary-foreground: 222 40% 4%;
+    --sidebar-accent: 220 28% 13%;
+    --sidebar-accent-foreground: 220 24% 94%;
+    --sidebar-border: 220 28% 15%;
+    --sidebar-ring: 199 89% 60%;
   }
 }
 
 @layer base {
   * {
-    @apply border-border;
+    border-color: var(--border-hairline);
   }
+
+  html {
+    color-scheme: dark;
+  }
+
   body {
-    @apply bg-background text-foreground;
+    background-color: var(--bg-canvas);
+    color: var(--text-primary);
+    font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* One scroll region: <main>. Custom 8px scrollbar. */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #2a3547;
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #36445c;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--sync);
+    outline-offset: 2px;
+  }
+
+  .tabular,
+  [data-tabular] {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: 'Space Grotesk', 'Inter', sans-serif;
+  }
+  .font-mono-data {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+  }
+  .text-overline {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    line-height: 14px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .skeleton-shimmer {
+    background: linear-gradient(
+      100deg,
+      transparent 30%,
+      rgba(255, 255, 255, 0.05) 50%,
+      transparent 70%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.6s infinite;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@keyframes live-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.9);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
