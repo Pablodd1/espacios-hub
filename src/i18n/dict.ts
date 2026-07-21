@@ -362,6 +362,7 @@ export const dict = {
     bucketRetencion: { es: 'Retención', en: 'Withholding' },
     siigoValue: { es: 'Valor SIIGO', en: 'SIIGO value' },
     hgiValue: { es: 'Valor HGI', en: 'HGI value' },
+  },
   /* ---- Cartera (receivables) ---- */
   cart: {
     title: { es: 'Cartera', en: 'Receivables' },
@@ -523,6 +524,7 @@ export const dict = {
         en: 'All three buckets match between SIIGO and HGI.',
       },
     },
+  },
   /* ---- Comercio Exterior (comex.*) ---- */
   comex: {
     title: { es: 'Comercio Exterior', en: 'Foreign Trade' },
@@ -701,6 +703,7 @@ export const dict = {
     fieldValor: { es: 'Valor total', en: 'Total amount' },
     matchOk: { es: 'Coincide', en: 'Matches' },
     exportQueued: { es: 'Exportación generada — descarga lista', en: 'Export generated — download ready' },
+  },
   /* ---- Comisiones (rules engine) ---- */
   comi: {
     caption: {
