@@ -24,6 +24,7 @@ import type { LucideIcon } from 'lucide-react';
 import { useLanguage } from '@/i18n';
 import type { DictKey, Lang } from '@/i18n';
 import { cn } from '@/lib/utils';
+import { isLiveMode } from '@/lib/mode';
 import type { ReactNode } from 'react';
 
 const SIDEBAR_KEY = 'espacios-hub-sidebar-collapsed';
@@ -352,6 +353,23 @@ export default function AppShell({ children }: AppShellProps) {
             <span className="text-[11px] font-semibold" style={{ color: 'var(--hgi)' }}>
               HGI
             </span>
+          </div>
+
+          {/* Data-mode pill: DEMO vs EN VIVO (Supabase) */}
+          <div
+            className="hidden items-center gap-1.5 rounded-full border px-2.5 py-1 text-[10px] font-bold tracking-wider lg:flex"
+            style={
+              isLiveMode()
+                ? { borderColor: 'rgba(22,199,132,0.4)', color: 'var(--brand)', background: 'rgba(22,199,132,0.08)' }
+                : { borderColor: 'rgba(245,158,11,0.4)', color: '#F59E0B', background: 'rgba(245,158,11,0.08)' }
+            }
+            title={t(isLiveMode() ? 'shell.liveHint' : 'shell.demoHint')}
+          >
+            <span
+              className="size-1.5 rounded-full"
+              style={{ background: isLiveMode() ? 'var(--brand)' : '#F59E0B' }}
+            />
+            {t(isLiveMode() ? 'shell.liveMode' : 'shell.demoMode')}
           </div>
 
           <LanguageToggle />

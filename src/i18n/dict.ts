@@ -142,6 +142,10 @@ export const dict = {
     userRole: { es: 'Gerencia General', en: 'General Management' },
     breadcrumbRoot: { es: 'Espacios Hub', en: 'Espacios Hub' },
     systemsOk: { es: 'Sistemas conectados', en: 'Systems connected' },
+    demoMode: { es: 'DEMO', en: 'DEMO' },
+    liveMode: { es: 'EN VIVO', en: 'LIVE' },
+    demoHint: { es: 'Datos de demostración — conecte Supabase para modo en vivo', en: 'Sample data — connect Supabase for live mode' },
+    liveHint: { es: 'Conectado a Supabase en tiempo real', en: 'Connected to Supabase in real time' },
   },
 
   /* ---- KPI labels ---- */
