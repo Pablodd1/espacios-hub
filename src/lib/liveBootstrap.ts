@@ -34,13 +34,29 @@ const TABLES: Array<[string, unknown[]]> = [
   ['audit_log', auditLog],
 ];
 
+function withTimeout<T>(p: Promise<T>, ms: number, label: string): Promise<T> {
+  return Promise.race([
+    p,
+    new Promise<never>((_r, rej) => setTimeout(() => rej(new Error(`timeout ${label}`)), ms)),
+  ]);
+}
+
 export async function bootstrapLiveData(): Promise<{ live: boolean; error?: string }> {
   if (!isLiveMode()) return { live: false };
-  const client = getSupabaseClient();
+  let client: ReturnType<typeof getSupabaseClient>;
+  try {
+    client = getSupabaseClient();
+  } catch (e) {
+    return { live: false, error: (e as Error).message };
+  }
   if (!client) return { live: false, error: 'Supabase client unavailable' };
   try {
     for (const [table, arr] of TABLES) {
-      const { data, error } = await client.from(table).select('*');
+      const { data, error } = await withTimeout(
+        client.from(table).select('*') as unknown as Promise<{ data: unknown[] | null; error: { message: string } | null }>,
+        8000,
+        table,
+      );
       if (error) throw new Error(`${table}: ${error.message}`);
       if (data && data.length) {
         arr.length = 0;

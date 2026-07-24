@@ -30,6 +30,15 @@ export function getSupabaseClient(): SupabaseClient | null {
     _client = createClient(
       import.meta.env.VITE_SUPABASE_URL as string,
       import.meta.env.VITE_SUPABASE_ANON_KEY as string,
+      {
+        // read-only anonymous access: skip GoTrue session handling entirely —
+        // avoids the Web Locks deadlock and /auth/v1 round-trips on page load
+        auth: {
+          persistSession: false,
+          autoRefreshToken: false,
+          detectSessionInUrl: false,
+        },
+      },
     );
   }
   return _client;
