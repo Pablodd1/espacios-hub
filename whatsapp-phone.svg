@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 620" fill="none">
+  <!-- Minimal dark smartphone frame; screen area transparent for DOM chat preview -->
+  <rect x="6" y="6" width="288" height="608" rx="40" stroke="#2A3547" stroke-width="2"/>
+  <!-- notch -->
+  <rect x="106" y="18" width="88" height="22" rx="11" stroke="#2A3547" stroke-width="2"/>
+  <!-- side buttons -->
+  <path d="M2 120 v54 M298 96 v36 M298 144 v64" stroke="#2A3547" stroke-width="3" stroke-linecap="round"/>
+</svg>
