@@ -31,11 +31,16 @@ export const dict = {
     logistica: { es: 'Logística', en: 'Logistics' },
     sync: { es: 'Centro de Sincronización', en: 'Sync Center' },
     config: { es: 'Configuración', en: 'Settings' },
+    importar: { es: 'Importar y OCR', en: 'Import & OCR' },
+    perfil: { es: 'Mi Perfil', en: 'My Profile' },
+    admin: { es: 'Administración', en: 'Administration' },
+    tools: { es: 'HERRAMIENTAS', en: 'TOOLS' },
   },
 
   navGroup: {
     operacion: { es: 'OPERACIÓN', en: 'OPERATIONS' },
     sistema: { es: 'SISTEMA', en: 'SYSTEM' },
+    tools: { es: 'HERRAMIENTAS', en: 'TOOLS' },
   },
 
   action: {
@@ -965,6 +970,105 @@ export const dict = {
     logout: { es: 'Cerrar sesión', en: 'Sign out' },
   },
 
+
+  /* Importar & OCR */
+  imp: {
+    title: { es: 'Importar y OCR', en: 'Import & OCR' },
+    caption: { es: 'Cargue Excel, CSV o escaneos — el sistema extrae la información para analítica.', en: 'Upload Excel, CSV or scans — the system extracts information for analytics.' },
+    demoNotice: { es: 'Modo demo: puede probar todo, pero nada se guarda en la base de datos.', en: 'Demo mode: you can try everything, but nothing is saved to the database.' },
+    tab: {
+      excel: { es: 'Excel / CSV', en: 'Excel / CSV' },
+      ocr: { es: 'OCR / Escaneos', en: 'OCR / Scans' },
+      historial: { es: 'Historial', en: 'History' },
+    },
+    excel: {
+      drop: { es: 'Arrastre su archivo aquí o haga clic', en: 'Drag your file here or click' },
+      formats: { es: '.xlsx · .xls · .csv', en: '.xlsx · .xls · .csv' },
+      rows: { es: 'filas', en: 'rows' },
+      cols: { es: 'columnas', en: 'columns' },
+      target: {
+        terceros: { es: 'Destino: Terceros', en: 'Target: Third parties' },
+        contenedores: { es: 'Destino: Contenedores', en: 'Target: Containers' },
+        documentos: { es: 'Destino: Documentos', en: 'Target: Documents' },
+      },
+      import: { es: 'Importar a Supabase', en: 'Import to Supabase' },
+      importing: { es: 'Importando…', en: 'Importing…' },
+      okRows: { es: 'filas importadas correctamente', en: 'rows imported successfully' },
+      errRows: { es: 'con error', en: 'failed' },
+      more: { es: 'filas más…', en: 'more rows…' },
+    },
+    ocr: {
+      drop: { es: 'Arrastre imagen o escaneo aquí', en: 'Drag image or scan here' },
+      formats: { es: 'JPG · PNG · PDF — motor Tesseract spa+eng (PaddleOCR en servidor próximamente)', en: 'JPG · PNG · PDF — Tesseract spa+eng engine (server PaddleOCR coming)' },
+      reading: { es: 'Leyendo documento…', en: 'Reading document…' },
+      confidence: { es: 'Confianza', en: 'Confidence' },
+      savedDb: { es: 'Guardado en Supabase', en: 'Saved to Supabase' },
+      rawText: { es: 'Texto extraído', en: 'Extracted text' },
+      empty: { es: 'Los campos extraídos aparecerán aquí', en: 'Extracted fields will appear here' },
+      field: {
+        fechas: { es: 'Fechas', en: 'Dates' },
+        montos: { es: 'Montos', en: 'Amounts' },
+        documentos: { es: 'N° documentos', en: 'Doc numbers' },
+        contenedores: { es: 'Contenedores', en: 'Containers' },
+        nits: { es: 'NIT / ID', en: 'Tax ID' },
+        correos: { es: 'Correos', en: 'Emails' },
+      },
+    },
+    hist: {
+      type: { es: 'Tipo', en: 'Type' },
+      file: { es: 'Archivo', en: 'File' },
+      detail: { es: 'Detalle', en: 'Detail' },
+      date: { es: 'Fecha', en: 'Date' },
+      empty: { es: 'Sin importaciones todavía', en: 'No imports yet' },
+      demoEmpty: { es: 'El historial está disponible en modo EN VIVO.', en: 'History is available in LIVE mode.' },
+    },
+  },
+
+  /* Perfil */
+  per: {
+    title: { es: 'Mi Perfil', en: 'My Profile' },
+    caption: { es: 'Foto y datos del vendedor — se guardan en Supabase.', en: 'Seller photo and details — saved to Supabase.' },
+    photoHint: { es: 'Toque la cámara para subir la foto de perfil (se guarda en Supabase Storage).', en: 'Tap the camera to upload the profile photo (saved to Supabase Storage).' },
+    adminBadge: { es: 'Administrador', en: 'Administrator' },
+    save: { es: 'Guardar perfil', en: 'Save profile' },
+    saving: { es: 'Guardando…', en: 'Saving…' },
+    saved: { es: '¡Guardado!', en: 'Saved!' },
+    f: {
+      nombre: { es: 'Nombre completo', en: 'Full name' },
+      cargo: { es: 'Cargo', en: 'Role / Title' },
+      whatsapp: { es: 'WhatsApp', en: 'WhatsApp' },
+      email: { es: 'Correo', en: 'Email' },
+      rol: { es: 'Rol', en: 'Role' },
+    },
+    rol: {
+      usuario: { es: 'Usuario', en: 'User' },
+      admin: { es: 'Administrador', en: 'Administrator' },
+    },
+  },
+
+  /* Admin */
+  adm: {
+    title: { es: 'Administración', en: 'Administration' },
+    caption: { es: 'Equipo, roles y acceso — el administrador controla a los usuarios.', en: 'Team, roles and access — admins control regular users.' },
+    credTitle: { es: 'Credenciales de acceso', en: 'Access credentials' },
+    credCaption: { es: 'Crear usuarios y restablecer contraseñas (Supabase Auth).', en: 'Create users and reset passwords (Supabase Auth).' },
+    createUser: { es: 'Crear usuario', en: 'Create user' },
+    resetPw: { es: 'Restablecer contraseña', en: 'Reset password' },
+    col: {
+      user: { es: 'Usuario', en: 'User' },
+      role: { es: 'Rol', en: 'Role' },
+      status: { es: 'Estado', en: 'Status' },
+      actions: { es: 'Acciones', en: 'Actions' },
+    },
+    active: { es: 'Activo', en: 'Active' },
+    inactive: { es: 'Inactivo', en: 'Inactive' },
+    empty: { es: 'Sin perfiles todavía — cree el primero desde “Mi Perfil”.', en: 'No profiles yet — create the first from “My Profile”.' },
+    guideTitle: { es: 'Gestión de credenciales', en: 'Credential management' },
+    guide1: { es: 'Mientras estamos en pruebas: cree usuarios en Supabase → Authentication → Users → “Add user” (puede enviar invitación por correo).', en: 'During testing: create users in Supabase → Authentication → Users → “Add user” (email invite supported).' },
+    guide2: { es: 'Para restablecer contraseña: Authentication → Users → seleccione el usuario → “Send password recovery”.', en: 'To reset a password: Authentication → Users → select user → “Send password recovery”.' },
+    guide3: { es: 'En producción: el servidor de sincronización (server/src/admin.ts) expone estos endpoints con la llave service_role y este panel los usará directamente.', en: 'In production: the sync server (server/src/admin.ts) exposes these endpoints with the service_role key and this panel will use them directly.' },
+    guideOk: { es: 'Entendido', en: 'Got it' },
+  },
 } as const;
 
 /* ===== Typed key machinery ===== */

@@ -11,6 +11,9 @@ import Logistica from '@/pages/Logistica';
 import SyncCenter from '@/pages/SyncCenter';
 import Configuracion from '@/pages/Configuracion';
 import Login from '@/pages/Login';
+import Importar from '@/pages/Importar';
+import Perfil from '@/pages/Perfil';
+import Admin from '@/pages/Admin';
 import { AuthProvider } from '@/lib/auth';
 
 export default function App() {
@@ -28,6 +31,9 @@ export default function App() {
             <Route path="comisiones" element={<Comisiones />} />
             <Route path="contabilidad" element={<Contabilidad />} />
             <Route path="logistica" element={<Logistica />} />
+            <Route path="importar" element={<Importar />} />
+            <Route path="perfil" element={<Perfil />} />
+            <Route path="admin" element={<Admin />} />
             <Route path="sync-center" element={<SyncCenter />} />
             <Route path="configuracion" element={<Configuracion />} />
             <Route path="*" element={<Home />} />

@@ -5,6 +5,7 @@ import { assertConfigured, env } from './config.js';
 import { syncAll, syncModule, type ModuleName } from './sync/engine.js';
 import { webhooksRouter } from './sync/webhooks.js';
 import { hgi } from './hgi/adapter.js';
+import { adminRouter } from './admin.js';
 
 const app = express();
 app.use(express.json({ limit: '2mb' }));
@@ -20,6 +21,7 @@ app.get('/health', (_req, res) => {
 });
 
 app.use('/webhooks', webhooksRouter);
+app.use('/admin', adminRouter);
 
 // Manual trigger: POST /sync/run/tesoreria|cartera|contabilidad|logistica|all
 app.post('/sync/run/:modulo', async (req, res) => {

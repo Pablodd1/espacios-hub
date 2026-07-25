@@ -19,6 +19,9 @@ import {
   Ship,
   Truck,
   UserRound,
+  FileUp,
+  CircleUserRound,
+  ShieldCheck,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { useLanguage } from '@/i18n';
@@ -47,6 +50,12 @@ const OPERACION: NavItem[] = [
   { to: '/logistica', icon: Truck, labelKey: 'nav.logistica' },
 ];
 
+const HERRAMIENTAS: NavItem[] = [
+  { to: '/importar', icon: FileUp, labelKey: 'nav.importar' },
+  { to: '/perfil', icon: CircleUserRound, labelKey: 'nav.perfil' },
+  { to: '/admin', icon: ShieldCheck, labelKey: 'nav.admin' },
+];
+
 const SISTEMA: NavItem[] = [
   { to: '/sync-center', icon: RefreshCw, labelKey: 'nav.sync' },
   { to: '/configuracion', icon: Settings2, labelKey: 'nav.config' },
@@ -60,6 +69,9 @@ const ROUTE_LABEL: Record<string, DictKey> = {
   '/comisiones': 'nav.comisiones',
   '/contabilidad': 'nav.contabilidad',
   '/logistica': 'nav.logistica',
+  '/importar': 'nav.importar',
+  '/perfil': 'nav.perfil',
+  '/admin': 'nav.admin',
   '/sync-center': 'nav.sync',
   '/configuracion': 'nav.config',
 };
@@ -265,6 +277,7 @@ export default function AppShell({ children }: AppShellProps) {
         {/* Nav */}
         <nav className="flex-1 overflow-y-auto pb-4">
           <NavGroup label={t('navGroup.operacion')} items={OPERACION} collapsed={collapsed} />
+          <NavGroup label={t('navGroup.tools')} items={HERRAMIENTAS} collapsed={collapsed} />
           <NavGroup label={t('navGroup.sistema')} items={SISTEMA} collapsed={collapsed} />
         </nav>
 
