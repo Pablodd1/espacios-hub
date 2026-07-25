@@ -10,12 +10,16 @@ import Contabilidad from '@/pages/Contabilidad';
 import Logistica from '@/pages/Logistica';
 import SyncCenter from '@/pages/SyncCenter';
 import Configuracion from '@/pages/Configuracion';
+import Login from '@/pages/Login';
+import { AuthProvider } from '@/lib/auth';
 
 export default function App() {
   return (
     <BrowserRouter>
       <LanguageProvider>
+      <AuthProvider>
         <Routes>
+          <Route path="login" element={<Login />} />
           <Route element={<Layout />}>
             <Route index element={<Home />} />
             <Route path="tesoreria" element={<Tesoreria />} />
@@ -29,6 +33,7 @@ export default function App() {
             <Route path="*" element={<Home />} />
           </Route>
         </Routes>
+      </AuthProvider>
       </LanguageProvider>
     </BrowserRouter>
   );

@@ -25,6 +25,8 @@ import { useLanguage } from '@/i18n';
 import type { DictKey, Lang } from '@/i18n';
 import { cn } from '@/lib/utils';
 import { isLiveMode } from '@/lib/mode';
+import { useAuth, signOut } from '@/lib/auth';
+import { useNavigate } from 'react-router';
 import type { ReactNode } from 'react';
 
 const SIDEBAR_KEY = 'espacios-hub-sidebar-collapsed';
@@ -151,11 +153,18 @@ function LanguageToggle() {
 function UserMenu() {
   const { t } = useLanguage();
   const [open, setOpen] = useState(false);
-  const items = [
-    { icon: UserRound, label: t('shell.profile') },
-    { icon: Settings2, label: t('shell.preferences') },
-    { icon: LogOut, label: t('action.logout') },
-  ];
+  const { session } = useAuth();
+  const navigate = useNavigate();
+  const items: Array<{ icon: typeof UserRound; label: string; action?: () => void }> = session
+    ? [
+        { icon: UserRound, label: session.user.email ?? t('shell.profile') },
+        { icon: Settings2, label: t('shell.preferences') },
+        { icon: LogOut, label: t('auth.logout'), action: () => { void signOut(); } },
+      ]
+    : [
+        { icon: UserRound, label: t('shell.signIn'), action: () => navigate('/login') },
+        { icon: Settings2, label: t('shell.preferences') },
+      ];
   return (
     <div className="relative">
       <button
@@ -179,12 +188,12 @@ function UserMenu() {
               exit={{ opacity: 0, scale: 0.97, y: -4 }}
               transition={{ duration: 0.16, ease: [0.16, 1, 0.3, 1] }}
             >
-              {items.map(({ icon: Icon, label }) => (
+              {items.map(({ icon: Icon, label, action }) => (
                 <button
                   key={label}
                   type="button"
                   role="menuitem"
-                  onClick={() => setOpen(false)}
+                  onClick={() => { setOpen(false); action?.(); }}
                   className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 text-[13px] text-txt-secondary transition-colors hover:bg-[var(--bg-hover)] hover:text-txt-primary"
                 >
                   <Icon className="size-4 text-txt-muted" strokeWidth={1.75} />

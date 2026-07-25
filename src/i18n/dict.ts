@@ -146,6 +146,7 @@ export const dict = {
     liveMode: { es: 'EN VIVO', en: 'LIVE' },
     demoHint: { es: 'Datos de demostración — conecte Supabase para modo en vivo', en: 'Sample data — connect Supabase for live mode' },
     liveHint: { es: 'Conectado a Supabase en tiempo real', en: 'Connected to Supabase in real time' },
+    signIn: { es: 'Iniciar sesión', en: 'Sign in' },
   },
 
   /* ---- KPI labels ---- */
@@ -945,6 +946,25 @@ export const dict = {
     interval: { es: 'Intervalo', en: 'Interval' },
     edit: { es: 'Editar', en: 'Edit' },
   },
+
+  /* Auth */
+  auth: {
+    title: { es: 'Iniciar sesión', en: 'Sign in' },
+    caption: { es: 'Acceso para el equipo de Espacios Importados.', en: 'Access for the Espacios Importados team.' },
+    brandTitle: { es: 'Un solo centro de control para toda la operación.', en: 'One control center for the entire operation.' },
+    brandCaption: { es: 'Tesorería, cartera, comercio exterior, comisiones, contabilidad y logística — sincronizados entre SIIGO y HGI en tiempo real.', en: 'Treasury, receivables, foreign trade, commissions, accounting and logistics — synced between SIIGO and HGI in real time.' },
+    secureNote: { es: 'Sesión segura con Supabase Auth', en: 'Secure session with Supabase Auth' },
+    email: { es: 'Correo corporativo', en: 'Work email' },
+    password: { es: 'Contraseña', en: 'Password' },
+    signIn: { es: 'Entrar', en: 'Sign in' },
+    signingIn: { es: 'Entrando…', en: 'Signing in…' },
+    backToApp: { es: 'Volver al panel', en: 'Back to the dashboard' },
+    errorGeneric: { es: 'No se pudo iniciar sesión. Verifique sus credenciales.', en: 'Could not sign in. Check your credentials.' },
+    demoOnly: { es: 'El inicio de sesión está disponible solo en modo EN VIVO (con Supabase configurado).', en: 'Sign-in is available in LIVE mode only (Supabase configured).' },
+    signedInAs: { es: 'Sesión iniciada como', en: 'Signed in as' },
+    logout: { es: 'Cerrar sesión', en: 'Sign out' },
+  },
+
 } as const;
 
 /* ===== Typed key machinery ===== */
