@@ -10,6 +10,17 @@ import { adminRouter } from './admin.js';
 const app = express();
 app.use(express.json({ limit: '2mb' }));
 
+// CORS — the frontend lives on GitHub Pages; allow it to call the API.
+// Set ALLOWED_ORIGIN in Vercel env (e.g. https://pablodd1.github.io); '*' default for testing.
+const allowed = process.env.ALLOWED_ORIGIN ?? '*';
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', allowed);
+  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Authorization');
+  if (req.method === 'OPTIONS') { res.status(204).end(); return; }
+  next();
+});
+
 app.get('/health', (_req, res) => {
   res.json({
     ok: true,
@@ -35,15 +46,21 @@ app.post('/sync/run/:modulo', async (req, res) => {
   }
 });
 
-const missing = assertConfigured();
-if (missing.length) {
-  console.warn(`[startup] Missing env vars: ${missing.join(', ')} — sync endpoints will fail until configured (see .env.example)`);
-} else {
-  cron.schedule(`*/${env.SYNC_INTERVAL_MIN} * * * *`, async () => {
-    console.log(`[cron] sync cycle ${new Date().toISOString()}`);
-    try { await syncAll(); } catch (e) { console.error('[cron] sync failed', e); }
-  });
-  console.log(`[cron] scheduled every ${env.SYNC_INTERVAL_MIN} min`);
+// On Vercel (serverless) there is no long-lived process: skip cron + listen.
+// Vercel Cron Jobs can hit POST /sync/run/all on a schedule instead.
+if (!process.env.VERCEL) {
+  const missing = assertConfigured();
+  if (missing.length) {
+    console.warn(`[startup] Missing env vars: ${missing.join(', ')} — sync endpoints will fail until configured (see .env.example)`);
+  } else {
+    cron.schedule(`*/${env.SYNC_INTERVAL_MIN} * * * *`, async () => {
+      console.log(`[cron] sync cycle ${new Date().toISOString()}`);
+      try { await syncAll(); } catch (e) { console.error('[cron] sync failed', e); }
+    });
+    console.log(`[cron] scheduled every ${env.SYNC_INTERVAL_MIN} min`);
+  }
+
+  app.listen(env.PORT, () => console.log(`Espacios Hub sync server on :${env.PORT}`));
 }
 
-app.listen(env.PORT, () => console.log(`Espacios Hub sync server on :${env.PORT}`));
+export default app;

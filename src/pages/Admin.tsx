@@ -25,6 +25,40 @@ export default function Admin() {
   const [rows, setRows] = useState<AdminPerfil[]>([]);
   const [busyId, setBusyId] = useState<string | null>(null);
   const [showGuide, setShowGuide] = useState(false);
+  // When the sync server is deployed (Vercel), credential ops call its admin API.
+  const apiUrl = (import.meta.env.VITE_API_URL as string | undefined)?.replace(/\/$/, '');
+  const [credMode, setCredMode] = useState<'create' | 'reset' | null>(null);
+  const [credEmail, setCredEmail] = useState('');
+  const [credNombre, setCredNombre] = useState('');
+  const [credPw, setCredPw] = useState('');
+  const [credBusy, setCredBusy] = useState(false);
+  const [credMsg, setCredMsg] = useState<{ ok: boolean; text: string } | null>(null);
+
+  function openCred(mode: 'create' | 'reset') {
+    if (!apiUrl) { setShowGuide(true); return; }
+    setCredMode(mode); setCredMsg(null); setCredEmail(''); setCredNombre(''); setCredPw('');
+  }
+
+  async function submitCred() {
+    if (!apiUrl || !credMode || !credEmail) return;
+    setCredBusy(true); setCredMsg(null);
+    try {
+      const path = credMode === 'create' ? '/admin/users' : '/admin/reset';
+      const body = credMode === 'create'
+        ? { email: credEmail, password: credPw || undefined, nombre: credNombre || undefined }
+        : { email: credEmail };
+      const r = await fetch(apiUrl + path, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body),
+      });
+      const j = await r.json().catch(() => ({}));
+      if (!r.ok) throw new Error(j.error ?? `HTTP ${r.status}`);
+      setCredMsg({ ok: true, text: t(credMode === 'create' ? 'adm.credCreated' : 'adm.credResetSent') });
+      void load();
+    } catch (e) {
+      setCredMsg({ ok: false, text: (e as Error).message });
+    }
+    setCredBusy(false);
+  }
 
   const load = async () => {
     if (!live) return;
@@ -70,11 +104,11 @@ export default function Admin() {
           </div>
         </div>
         <div className="flex gap-2">
-          <button onClick={() => setShowGuide(true)}
+          <button onClick={() => openCred('create')}
             className="flex items-center gap-2 rounded-lg border border-border-strong px-3.5 py-2 text-[12px] font-medium text-txt-secondary hover:border-[var(--sync)]">
             <UserPlus className="size-4" />{t('adm.createUser')}
           </button>
-          <button onClick={() => setShowGuide(true)}
+          <button onClick={() => openCred('reset')}
             className="flex items-center gap-2 rounded-lg border border-border-strong px-3.5 py-2 text-[12px] font-medium text-txt-secondary hover:border-[var(--sync)]">
             <KeyRound className="size-4" />{t('adm.resetPw')}
           </button>
@@ -137,6 +171,45 @@ export default function Admin() {
           </tbody>
         </table>
       </div>
+
+      {/* credential form modal (only when VITE_API_URL is configured) */}
+      {credMode && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4" onClick={() => setCredMode(null)}>
+          <motion.div initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }}
+            onClick={(e) => e.stopPropagation()}
+            className="w-full max-w-md space-y-4 rounded-2xl border border-border-strong bg-[#0B1118] p-6">
+            <div className="flex items-center gap-2 text-[15px] font-semibold text-txt-primary">
+              {credMode === 'create' ? <UserPlus className="size-5" style={{ color: 'var(--brand)' }} /> : <KeyRound className="size-5" style={{ color: 'var(--sync)' }} />}
+              {t(credMode === 'create' ? 'adm.createUser' : 'adm.resetPw')}
+            </div>
+            <div className="space-y-3">
+              <input value={credEmail} onChange={(e) => setCredEmail(e.target.value)} type="email"
+                placeholder={t('adm.credEmailPh')}
+                className="w-full rounded-lg border border-border-strong bg-transparent px-3 py-2.5 text-[13px] text-txt-primary outline-none focus:border-[var(--brand)]" />
+              {credMode === 'create' && (
+                <>
+                  <input value={credNombre} onChange={(e) => setCredNombre(e.target.value)}
+                    placeholder={t('adm.credNombrePh')}
+                    className="w-full rounded-lg border border-border-strong bg-transparent px-3 py-2.5 text-[13px] text-txt-primary outline-none focus:border-[var(--brand)]" />
+                  <input value={credPw} onChange={(e) => setCredPw(e.target.value)} type="password"
+                    placeholder={t('adm.credPwPh')}
+                    className="w-full rounded-lg border border-border-strong bg-transparent px-3 py-2.5 text-[13px] text-txt-primary outline-none focus:border-[var(--brand)]" />
+                  <p className="text-[11px] text-txt-muted">{t('adm.credPwHint')}</p>
+                </>
+              )}
+            </div>
+            {credMsg && (
+              <p className="text-[12px]" style={{ color: credMsg.ok ? 'var(--brand)' : '#F87171' }}>{credMsg.text}</p>
+            )}
+            <button onClick={() => void submitCred()} disabled={credBusy || !credEmail}
+              className="flex w-full items-center justify-center gap-2 rounded-lg py-2.5 text-[13px] font-semibold text-[#041210] disabled:opacity-50"
+              style={{ background: 'var(--brand)' }}>
+              {credBusy ? <Loader2 className="size-4 animate-spin" /> : <CheckCircle2 className="size-4" />}
+              {t('adm.credSubmit')}
+            </button>
+          </motion.div>
+        </div>
+      )}
 
       {/* guidance modal */}
       {showGuide && (

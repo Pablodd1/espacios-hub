@@ -1068,6 +1068,13 @@ export const dict = {
     guide2: { es: 'Para restablecer contraseña: Authentication → Users → seleccione el usuario → “Send password recovery”.', en: 'To reset a password: Authentication → Users → select user → “Send password recovery”.' },
     guide3: { es: 'En producción: el servidor de sincronización (server/src/admin.ts) expone estos endpoints con la llave service_role y este panel los usará directamente.', en: 'In production: the sync server (server/src/admin.ts) exposes these endpoints with the service_role key and this panel will use them directly.' },
     guideOk: { es: 'Entendido', en: 'Got it' },
+    credEmailPh: { es: 'correo@espaciosimportados.com', en: 'user@espaciosimportados.com' },
+    credNombrePh: { es: 'Nombre completo (opcional)', en: 'Full name (optional)' },
+    credPwPh: { es: 'Contraseña temporal (opcional)', en: 'Temporary password (optional)' },
+    credPwHint: { es: 'Si la dejas vacía, el usuario recibe un correo de invitación para crear su clave.', en: 'Leave empty and the user gets an invite email to set their password.' },
+    credSubmit: { es: 'Confirmar', en: 'Confirm' },
+    credCreated: { es: 'Usuario creado correctamente.', en: 'User created successfully.' },
+    credResetSent: { es: 'Correo de recuperación enviado.', en: 'Recovery email sent.' },
   },
 } as const;
 
