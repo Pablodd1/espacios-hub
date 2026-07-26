@@ -35,23 +35,50 @@ export default function Admin() {
   const [credMsg, setCredMsg] = useState<{ ok: boolean; text: string } | null>(null);
 
   function openCred(mode: 'create' | 'reset') {
-    if (!apiUrl) { setShowGuide(true); return; }
+    if (!apiUrl && !live) { setShowGuide(true); return; }
     setCredMode(mode); setCredMsg(null); setCredEmail(''); setCredNombre(''); setCredPw('');
   }
 
   async function submitCred() {
-    if (!apiUrl || !credMode || !credEmail) return;
+    if (!credMode || !credEmail) return;
     setCredBusy(true); setCredMsg(null);
     try {
-      const path = credMode === 'create' ? '/admin/users' : '/admin/reset';
-      const body = credMode === 'create'
-        ? { email: credEmail, password: credPw || undefined, nombre: credNombre || undefined }
-        : { email: credEmail };
-      const r = await fetch(apiUrl + path, {
-        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body),
-      });
-      const j = await r.json().catch(() => ({}));
-      if (!r.ok) throw new Error(j.error ?? `HTTP ${r.status}`);
+      if (apiUrl) {
+        // Preferred path: sync server admin API (auto-confirmed accounts).
+        const path = credMode === 'create' ? '/admin/users' : '/admin/reset';
+        const body = credMode === 'create'
+          ? { email: credEmail, password: credPw || undefined, nombre: credNombre || undefined }
+          : { email: credEmail };
+        const r = await fetch(apiUrl + path, {
+          method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body),
+        });
+        const j = await r.json().catch(() => ({}));
+        if (!r.ok) throw new Error(j.error ?? `HTTP ${r.status}`);
+      } else {
+        // Direct path: Supabase Auth from the browser (works during testing,
+        // no server needed). Ephemeral client so the current session is untouched.
+        const { createClient } = await import('@supabase/supabase-js');
+        const url = import.meta.env.VITE_SUPABASE_URL as string;
+        const key = import.meta.env.VITE_SUPABASE_ANON_KEY as string;
+        const sb = createClient(url, key, {
+          auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false },
+        });
+        if (credMode === 'create') {
+          const { data, error } = await sb.auth.signUp({
+            email: credEmail,
+            password: credPw || crypto.randomUUID().slice(0, 12) + 'Aa1!',
+          });
+          if (error) throw error;
+          if (credNombre && data.user) {
+            await getSupabaseClient()!.from('perfiles').insert({
+              auth_user_id: data.user.id, nombre: credNombre, email: credEmail, rol: 'usuario',
+            });
+          }
+        } else {
+          const { error } = await sb.auth.resetPasswordForEmail(credEmail);
+          if (error) throw error;
+        }
+      }
       setCredMsg({ ok: true, text: t(credMode === 'create' ? 'adm.credCreated' : 'adm.credResetSent') });
       void load();
     } catch (e) {
